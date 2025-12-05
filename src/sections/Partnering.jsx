@@ -132,29 +132,57 @@ function PartnershipSection() {
           <h2 className="text-4xl font-semibold text-[#2b5182] mb-6">
             Partnering With Us
           </h2>
-          <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
-            By partnering with us, you empower your employees with access to ethical and reliable financial services—without adding administrative burden to your HR or payroll team. We handle everything from loan processing to repayment tracking, ensuring:
-          </p>
         </div>
 
-        {/* Benefits List */}
-        <div className="flex flex-col gap-4 ml-6 max-w-4xl mx-auto w-full">
-          {benefits.map((benefit, index) => (
-            <div
-              key={benefit.key}
-              ref={benefit.ref}
-              data-section={benefit.key}
-              className={`flex items-start gap-4 transition-all duration-1000 ease-out ${
-                visibleSections[benefit.key]
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 -translate-x-8'
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              <CheckCircle className="w-6 h-6 text-[#2b5182] shrink-0 mt-1" />
-              <p className="text-gray-700 text-lg">{benefit.text}</p>
+        {/* Enhanced Benefits Card */}
+        <div className="relative">
+          {/* Decorative gradient background */}
+          <div className="absolute inset-0 bg-linear-to-br from-[#2b5182]/5 via-transparent to-blue-50 rounded-3xl transform -rotate-1"></div>
+          
+          <div className="relative bg-white border border-gray-200 rounded-3xl p-10 md:p-12 shadow-xl">
+            {/* Top decorative element */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="bg-linear-to-r from-[#2b5182] to-blue-600 rounded-full p-4 shadow-lg">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
             </div>
-          ))}
+
+            {/* Main content */}
+            <div className="mt-6">
+              <p className="text-gray-700 text-lg leading-relaxed text-center mb-10 max-w-3xl mx-auto">
+                By partnering with us, you empower your employees with access to ethical and reliable financial services—without adding administrative burden to your HR or payroll team. We handle everything from loan processing to repayment tracking, ensuring:
+              </p>
+
+              {/* Benefits Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={benefit.key}
+                    ref={benefit.ref}
+                    data-section={benefit.key}
+                    className={`group relative bg-linear-to-br from-gray-50 to-white border-2 border-gray-100 rounded-2xl p-6 hover:border-[#2b5182] hover:shadow-lg transition-all duration-1000 ease-out ${
+                      visibleSections[benefit.key]
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: `${index * 150}ms` }}
+                  >
+                    {/* Hover gradient effect */}
+                    <div className="absolute inset-0 bg-linear-to-br from-[#2b5182]/0 to-blue-600/0 group-hover:from-[#2b5182]/5 group-hover:to-blue-600/5 rounded-2xl transition-all duration-300"></div>
+                    
+                    <div className="relative flex flex-col items-center text-center gap-4">
+                      <div className="bg-[#2b5182] rounded-full p-3 group-hover:scale-110 transition-transform duration-300">
+                        <CheckCircle className="w-6 h-6 text-white" />
+                      </div>
+                      <p className="text-gray-700 font-medium leading-relaxed">
+                        {benefit.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -225,6 +253,6 @@ function PartnershipSection() {
 // Demo wrapper
 export default function App() {
   return (
-      <PartnershipSection />
+    <PartnershipSection />
   );
 }
