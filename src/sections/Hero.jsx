@@ -7,7 +7,7 @@ function Hero() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]: IntersectionObserverEntry[]) => {
+      ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
       {

@@ -24,7 +24,7 @@ function ValueProposition() {
       rootMargin: '-50px'
     };
 
-    const observerCallback = (entries: any[]) => {
+    const observerCallback = (entries) => {
       entries.forEach((entry) => {
         const itemName = entry.target.dataset.item;
         setVisibleItems(prev => ({

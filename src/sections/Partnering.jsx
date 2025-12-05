@@ -30,7 +30,7 @@ function PartnershipSection() {
       rootMargin: '-30px'
     };
 
-    const observerCallback = (entries: any[]) => {
+    const observerCallback = (entries) => {
       entries.forEach((entry) => {
         const sectionName = entry.target.dataset.section;
         setVisibleSections(prev => ({
@@ -116,7 +116,7 @@ function PartnershipSection() {
   ];
 
   return (
-    <section id='partnering' className=" flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto">
+    <section id='partnering' className="flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto">
       {/* Partnership Section */}
       <div className="flex flex-col gap-8">
         {/* Header */}
@@ -132,13 +132,13 @@ function PartnershipSection() {
           <h2 className="text-4xl font-semibold text-[#2b5182] mb-6">
             Partnering With Us
           </h2>
-          <p className="text-gray-600 text-lg leading-relaxed">
+          <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
             By partnering with us, you empower your employees with access to ethical and reliable financial services—without adding administrative burden to your HR or payroll team. We handle everything from loan processing to repayment tracking, ensuring:
           </p>
         </div>
 
         {/* Benefits List */}
-        <div className="flex flex-col gap-4 ml-6">
+        <div className="flex flex-col gap-4 ml-6 max-w-4xl mx-auto w-full">
           {benefits.map((benefit, index) => (
             <div
               key={benefit.key}
