@@ -102,7 +102,7 @@ function ValueProposition() {
   ];
 
   return (
-    <section id='whyus' className="flex max-w-7xl flex-col gap-12 px-8 py-20 lg:px-12 xl:m-auto">
+    <section id='whyus' className="scroll-mt-50 flex max-w-7xl flex-col gap-12 px-8 py-20 lg:px-12 xl:m-auto">
       {/* Header */}
       <div
         ref={headerRef}
