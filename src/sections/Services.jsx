@@ -12,6 +12,11 @@ export default function Features() {
       img: Img1,
       reverse: false,
       bg: "bg-blue-50",
+      alt: "Professional employee reviewing personal loan application for emergency financial needs",
+      schema: {
+        type: "PersonalLoan",
+        description: "Fast employee personal loans for emergencies, education, and medical expenses"
+      }
     },
     {
       title: "Salary Advance Loans",
@@ -19,6 +24,11 @@ export default function Features() {
       img: Img4,
       reverse: true,
       bg: "bg-purple-50",
+      alt: "Business professional accessing salary advance loan for urgent expenses",
+      schema: {
+        type: "PaydayLoan",
+        description: "Short-term salary advance loans to bridge financial gaps between paydays"
+      }
     },
     {
       title: "Back-To-School Financing",
@@ -26,6 +36,11 @@ export default function Features() {
       img: Img3,
       reverse: false,
       bg: "bg-green-50",
+      alt: "Student with educational materials funded through back-to-school financing program",
+      schema: {
+        type: "EducationLoan",
+        description: "Affordable back-to-school financing for tuition, uniforms, books, and learning supplies"
+      }
     },
     {
       title: "Teacher & Staff Support Loans",
@@ -33,6 +48,11 @@ export default function Features() {
       img: Img2,
       reverse: true,
       bg: "bg-orange-50",
+      alt: "Teacher receiving specialized staff support loan designed for education professionals",
+      schema: {
+        type: "PersonalLoan",
+        description: "Specialized support loans for teachers and education staff with affordable rates"
+      }
     },
   ];
 
@@ -85,49 +105,101 @@ export default function Features() {
     <section
       id="services"
       className="scroll-mt-50 flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto"
+      aria-labelledby="services-heading"
     >
-      {/* Header */}
-      <article
+      {/* Header with SEO-optimized content */}
+      <header
         ref={headerRef}
-        className={`m-auto w-[30ch] text-center text-gray-500 md:m-0 md:w-full transition-all duration-1000 ease-out ${
+        className={`m-auto w-[30ch] text-center text-gray-600 md:m-0 md:w-full transition-all duration-1000 ease-out ${
           visibleSections.header ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
         }`}
       >
-        <h2 className="mb-4 text-4xl font-semibold text-[#2b5182]">Our Services</h2>
-        <p>
-          We provide fast, flexible loan solutions designed to support your financial goals with clarity and confidence.
+        <h2 
+          id="services-heading"
+          className="mb-4 text-4xl font-semibold text-[#2b5182]"
+        >
+          Kopano Capital Loan Services
+        </h2>
+        <p className="text-lg">
+          We provide fast, flexible loan solutions designed to support your financial goals with clarity and confidence. From employee personal loans to salary advances, we serve the workforce with transparent terms.
         </p>
-      </article>
+      </header>
 
-      {/* Cards */}
-      <div className="flex flex-col gap-16">
+      {/* Service Cards with semantic HTML */}
+      <div className="flex flex-col gap-16" role="list">
         {cards.map((card, i) => (
-          <div
+          <article
             key={i}
             ref={addToRefs}
             className={`w-full rounded-3xl shadow-xl overflow-hidden transition-all duration-1000 ease-out hover:shadow-2xl ${card.bg} ${
               visibleSections.cards[i] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
+            role="listitem"
+            itemScope
+            itemType="https://schema.org/LoanOrCredit"
+            aria-labelledby={`service-${i}-title`}
           >
+            {/* Hidden structured data for SEO */}
+            <meta itemProp="name" content={card.title} />
+            <meta itemProp="description" content={card.text} />
+            <meta itemProp="provider" content="Kopano Capital" />
+            
             <div
               className={`flex flex-col md:flex-row items-stretch ${
                 card.reverse ? "md:flex-row-reverse" : ""
               }`}
             >
-              {/* TEXT SIDE */}
+              {/* TEXT SIDE with proper heading hierarchy */}
               <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-10">
-                <h3 className="text-3xl font-semibold text-[#1e3a5f] mb-4">{card.title}</h3>
-                <p className="text-gray-700 leading-relaxed text-lg">{card.text}</p>
+                <h3 
+                  id={`service-${i}-title`}
+                  className="text-3xl font-semibold text-[#1e3a5f] mb-4"
+                  itemProp="loanType"
+                >
+                  {card.title}
+                </h3>
+                <p 
+                  className="text-gray-700 leading-relaxed text-lg"
+                  itemProp="description"
+                >
+                  {card.text}
+                </p>
+                
+                {/* Call to action for better engagement */}
+                <div className="mt-6">
+                  <a
+                    href="#apply"
+                    className="inline-block px-6 py-3 bg-[#2b5182] text-white rounded-lg font-semibold hover:bg-[#3d6fa8] transition-colors duration-300"
+                    aria-label={`Apply for ${card.title}`}
+                  >
+                    Learn More
+                  </a>
+                </div>
               </div>
 
-              {/* IMAGE SIDE */}
+              {/* IMAGE SIDE with SEO-optimized alt text */}
               <div className="md:w-1/2">
-                <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
+                <img 
+                  src={card.img} 
+                  alt={card.alt}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  width="600"
+                  height="400"
+                  itemProp="image"
+                />
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
+
+      {/* Additional context for search engines */}
+      <aside className="mt-8 text-center text-gray-600">
+        <p className="text-sm">
+          All Kopano Capital loan products feature transparent terms, instant processing, and flexible repayment options designed for today's workforce.
+        </p>
+      </aside>
     </section>
   );
 }
