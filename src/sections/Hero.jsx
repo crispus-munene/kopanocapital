@@ -114,7 +114,7 @@ function Hero() {
         >
           <a
             href="#apply"
-            className="inline-block bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors duration-300"
+            className="inline-block bg-white text-[#2b5182] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors duration-300"
             aria-label="Apply for a fast loan with Kopano Capital"
           >
             Apply Now
