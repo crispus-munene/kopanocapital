@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import Img1 from "../assets/engineer.jpeg";
-import Img2 from "../assets/teacher1.jpg";
-import Img3 from "../assets/child3.jpg";
-import Img4 from "../assets/businessman.jpg";
+import Img1 from "../assets/engineer.webp";
+import Img2 from "../assets/teacher1.webp";
+import Img3 from "../assets/child3.webp";
+import Img4 from "../assets/businessman.webp";
 
 export default function Features() {
   const cards = [

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Image2 from "../assets/hero-image.png"; // Large screens
-import Image1 from "../assets/hero-image-phone.png"; // Small screens
+import Image2 from "../assets/hero-image.webp"; // Large screens
+import Image1 from "../assets/hero-image-phone.webp"; // Small screens
 
 function Hero() {
   const [isVisible, setIsVisible] = useState(false);
