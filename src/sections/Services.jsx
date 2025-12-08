@@ -1,151 +1,133 @@
-import { useState, useEffect, useRef } from 'react';
-import { Wallet, TrendingUp, GraduationCap, Users } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import Img1 from "../assets/engineer.jpeg";
+import Img2 from "../assets/teacher1.jpg";
+import Img3 from "../assets/child3.jpg";
+import Img4 from "../assets/businessman.jpg";
 
-function Features() {
-  const [visibleSections, setVisibleSections] = useState({
-    header: false,
-    row1: false,
-    row2: false,
-    row3: false
-  });
+export default function Features() {
+  const cards = [
+    {
+      title: "Employee Personal Loans",
+      text: "Quick loans for emergencies, education, medical needs and more.",
+      img: Img1,
+      reverse: false,
+      bg: "bg-blue-50",
+    },
+    {
+      title: "Salary Advance Loans",
+      text: "Short-term loans that bridge the gap between paydays.",
+      img: Img4,
+      reverse: true,
+      bg: "bg-purple-50",
+    },
+    {
+      title: "Back-To-School Financing",
+      text: "Support for tuition, uniforms, books and essential learning supplies.",
+      img: Img3,
+      reverse: false,
+      bg: "bg-green-50",
+    },
+    {
+      title: "Teacher & Staff Support Loans",
+      text: "Affordable financing tailored specially for the education workforce.",
+      img: Img2,
+      reverse: true,
+      bg: "bg-orange-50",
+    },
+  ];
 
   const headerRef = useRef(null);
-  const row1Ref = useRef(null);
-  const row2Ref = useRef(null);
-  const row3Ref = useRef(null);
+  const cardRefs = useRef([]);
+  cardRefs.current = [];
+
+  const [visibleSections, setVisibleSections] = useState({
+    header: false,
+    cards: [],
+  });
+
+  const addToRefs = (el) => {
+    if (el && !cardRefs.current.includes(el)) {
+      cardRefs.current.push(el);
+    }
+  };
 
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.15,
-      rootMargin: '-50px'
-    };
-
+    const observerOptions = { threshold: 0.2, rootMargin: "-50px" };
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
-        const sectionName = entry.target.dataset.section;
-        setVisibleSections(prev => ({
-          ...prev,
-          [sectionName]: entry.isIntersecting
-        }));
+        if (entry.target === headerRef.current && entry.isIntersecting) {
+          setVisibleSections((prev) => ({ ...prev, header: true }));
+        }
+
+        const cardIndex = cardRefs.current.indexOf(entry.target);
+        if (cardIndex >= 0 && entry.isIntersecting) {
+          setVisibleSections((prev) => {
+            const updatedCards = [...prev.cards];
+            updatedCards[cardIndex] = true;
+            return { ...prev, cards: updatedCards };
+          });
+        }
       });
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     if (headerRef.current) observer.observe(headerRef.current);
-    if (row1Ref.current) observer.observe(row1Ref.current);
-    if (row2Ref.current) observer.observe(row2Ref.current);
-    if (row3Ref.current) observer.observe(row3Ref.current);
+    cardRefs.current.forEach((ref) => observer.observe(ref));
 
     return () => {
       if (headerRef.current) observer.unobserve(headerRef.current);
-      if (row1Ref.current) observer.unobserve(row1Ref.current);
-      if (row2Ref.current) observer.unobserve(row2Ref.current);
-      if (row3Ref.current) observer.unobserve(row3Ref.current);
+      cardRefs.current.forEach((ref) => observer.unobserve(ref));
     };
   }, []);
 
   return (
     <section
       id="services"
-      className="scroll-mt-65 flex max-w-7xl flex-col gap-10 px-8 pt-10 lg:px-12 xl:m-auto xl:pt-20"
+      className="scroll-mt-50 flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto"
     >
-
-      <article 
+      {/* Header */}
+      <article
         ref={headerRef}
-        data-section="header"
         className={`m-auto w-[30ch] text-center text-gray-500 md:m-0 md:w-full transition-all duration-1000 ease-out ${
-          visibleSections.header
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-20'
+          visibleSections.header ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
         }`}
       >
-        <h2 className="mb-4 text-4xl font-semibold text-[#2b5182]">
-          Our Services
-        </h2>
+        <h2 className="mb-4 text-4xl font-semibold text-[#2b5182]">Our Services</h2>
         <p>
           We provide fast, flexible loan solutions designed to support your financial goals with clarity and confidence.
         </p>
       </article>
 
-      <article 
-        ref={row1Ref}
-        data-section="row1"
-        className="flex w-full flex-col gap-8 xl:h-96 xl:flex-row"
-      >
-        <div className={`flex flex-col justify-center gap-4 rounded-2xl bg-sky-100 p-10 xl:w-1/2 transition-all duration-1000 ease-out ${
-          visibleSections.row1
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-20'
-        }`}>
-          <div className="w-fit rounded-full bg-sky-200 p-4">
-            <Wallet className="w-8 h-8 text-[#2b5182]" strokeWidth={2} />
-          </div>
-          <h2 className="text-3xl font-semibold text-[#2b5182]">
-            Employee Personal Loans
-          </h2>
-          <p className="text-gray-500">
-            Quick loans for emergencies, education, medical needs, home improvements, etc.
-          </p>
-        </div>
+      {/* Cards */}
+      <div className="flex flex-col gap-16">
+        {cards.map((card, i) => (
+          <div
+            key={i}
+            ref={addToRefs}
+            className={`w-full rounded-3xl shadow-xl overflow-hidden transition-all duration-1000 ease-out hover:shadow-2xl ${card.bg} ${
+              visibleSections.cards[i] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
+          >
+            <div
+              className={`flex flex-col md:flex-row items-stretch ${
+                card.reverse ? "md:flex-row-reverse" : ""
+              }`}
+            >
+              {/* TEXT SIDE */}
+              <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-10">
+                <h3 className="text-3xl font-semibold text-[#1e3a5f] mb-4">{card.title}</h3>
+                <p className="text-gray-700 leading-relaxed text-lg">{card.text}</p>
+              </div>
 
-        <div className={`flex flex-col justify-center gap-4 rounded-2xl bg-indigo-100 p-10 xl:w-1/2 transition-all duration-1000 ease-out ${
-          visibleSections.row1
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-20'
-        }`}
-        style={{ transitionDelay: '200ms' }}>
-          <div className="w-fit rounded-full bg-indigo-200 p-4">
-            <TrendingUp className="w-8 h-8 text-[#2b5182]" strokeWidth={2} />
+              {/* IMAGE SIDE */}
+              <div className="md:w-1/2">
+                <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
+              </div>
+            </div>
           </div>
-          <h2 className="text-3xl font-semibold text-[#2b5182]">
-            Salary Advance Loans
-          </h2>
-          <p className="text-gray-500">
-            Small loans to help bridge the gap between paydays.
-          </p>
-        </div>
-      </article>
-
-      <article 
-        ref={row2Ref}
-        data-section="row2"
-        className="flex w-full flex-col gap-8 xl:h-96 xl:flex-row"
-      >
-        <div className={`flex flex-col justify-center gap-4 rounded-2xl bg-orange-100 p-10 xl:w-1/2 transition-all duration-1000 ease-out ${
-          visibleSections.row2
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-20'
-        }`}>
-          <div className="w-fit rounded-full bg-orange-200 p-4">
-            <GraduationCap className="w-8 h-8 text-[#2b5182]" strokeWidth={2} />
-          </div>
-          <h2 className="text-3xl font-semibold text-[#2b5182]">
-            Back-To-School Financing
-          </h2>
-          <p className="text-gray-500">
-            Special packages for parents during the school term opening season.
-          </p>
-        </div>
-
-        <div className={`flex flex-col justify-center gap-4 rounded-2xl bg-emerald-100 p-10 xl:w-1/2 transition-all duration-1000 ease-out ${
-          visibleSections.row2
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-20'
-        }`}
-        style={{ transitionDelay: '200ms' }}>
-          <div className="w-fit rounded-full bg-emerald-200 p-4">
-            <Users className="w-8 h-8 text-[#2b5182]" strokeWidth={2} />
-          </div>
-          <h2 className="text-3xl font-semibold text-[#2b5182]">
-            Teacher & Educator Support Loans
-          </h2>
-          <p className="text-gray-500">
-            Tailored financial support for teachers and school staff, recognizing their unique cash flow cycles.
-          </p>
-        </div>
-      </article>
+        ))}
+      </div>
     </section>
   );
 }
-export default Features;

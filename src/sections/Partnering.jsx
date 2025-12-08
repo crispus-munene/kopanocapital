@@ -118,7 +118,7 @@ function PartnershipSection() {
   return (
     <section
       id="partnering"
-      className="scroll-mt-52 flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto"
+      className="scroll-mt-50 flex max-w-7xl flex-col gap-16 px-8 py-20 lg:px-12 xl:m-auto"
     >
       {/* Partnership Section */}
       <div className="flex flex-col gap-8">

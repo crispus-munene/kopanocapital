@@ -1,79 +1,96 @@
-import { useState, useEffect, useRef } from 'react';
-import HeroImage from "../assets/hero.png";
+import { useState, useEffect, useRef } from "react";
+import Image2 from "../assets/hero-image.png"; // Large screens
+import Image1 from "../assets/hero-image-phone.png"; // Small screens
 
 function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeLine, setActiveLine] = useState(0);
   const sectionRef = useRef(null);
+
+  const headers = [
+    "Fast Loans.",
+    "Zero Hassle.",
+    "Total Convenience."
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => sectionRef.current && observer.unobserve(sectionRef.current);
+  }, []);
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveLine(prev => (prev + 1) % headers.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="relative mt-10 flex h-fit max-w-7xl flex-col items-center gap-10 px-8 sm:gap-16 md:my-0 md:h-[84.9vh] md:flex-row md:gap-8 lg:px-12 xl:m-auto xl:gap-12"
+      className="relative flex h-screen w-full items-center justify-start overflow-hidden"
     >
-      {/* Text Column */}
-      <div className="w-full md:w-1/2">
-        <h1
-          className={`mx-auto mb-8 w-[21ch] text-center text-3xl font-semibold text-[#2b5182] sm:text-5xl md:mx-0 md:text-left transition-all duration-1200 ease-out ${
-            isVisible
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '200ms' }}
-        >
-          Fast Loans. <br/> Zero Hassle. <br/> Total Convenience.
+      {/* Large screen image */}
+      <img
+        src={Image2}
+        alt="Hero Background"
+        className={`
+          hidden lg:block absolute inset-0 w-full h-full object-cover transition-all duration-1500
+          ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-105"}
+        `}
+        style={{ objectPosition: "75% 50%" }}
+      />
+
+      {/* Small screen image */}
+      <img
+        src={Image1}
+        alt="Hero Background Mobile"
+        className={`
+          block lg:hidden absolute inset-0 w-full h-full object-cover transition-all duration-1500
+          ${isVisible ? "opacity-100 scale-100" : "opacity-80 scale-105"}
+        `}
+        style={{ objectPosition: "50% 50%" }}
+      />
+
+      {/* Dark Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+
+      {/* Text Content */}
+      <div className="relative z-10 w-full max-w-7xl px-8 lg:px-12 xl:m-auto text-white">
+        <h1 className="mb-0 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight h-[8rem] overflow-hidden relative">
+          {headers.map((line, index) => (
+            <span
+              key={index}
+              className={`absolute left-0 w-full transition-all duration-1000 ease-in-out ${
+                index === activeLine
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              {line}
+            </span>
+          ))}
         </h1>
-        <p className={`mx-auto max-w-[35ch] text-center text-[#555555] md:mx-0 md:text-left transition-all duration-1200 ease-out ${
-            isVisible
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '500ms' }}
+
+        <p
+          className={`
+            text-lg sm:text-xl transition-all duration-1200 ease-out
+            ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
+          `}
+          style={{ transitionDelay: "500ms" }}
         >
-          Get quick, reliable financing designed for today's workforce.
-          Our loans are easy to access, instantly processed,
-          and tailored to fit your needs—whether you're employed,
-          self-employed, or running a small business.
-          Enjoy seamless applications, quick disbursement, and
-          transparent terms you can trust.
+          Get quick, reliable financing designed for today’s workforce.<br />
+          Accessible applications. Instant processing. Transparent terms.<br />
+          Tailored financing that supports your goals — all in one seamless experience.
         </p>
-      </div>
-      {/* Image Column */}
-      <div className={`w-full md:w-1/2 flex justify-center md:justify-end transition-all duration-1200 ease-out ${
-            isVisible
-              ? 'opacity-100 scale-100'
-              : 'opacity-0 scale-95'
-          }`}
-          style={{ transitionDelay: '800ms' }}
-      >
-        <img
-          className="rounded-2xl w-full max-w-[500px] xl:max-w-[600px]"
-          src={HeroImage}
-          alt="A woman happily using Kopano App"
-        />
       </div>
     </section>
   );
 }
+
 export default Hero;

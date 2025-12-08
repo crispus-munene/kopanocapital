@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import Kopano from "../assets/logos/kopano_logo.svg";
+import Kopano from "../assets/logos/kopano(1).png";
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,8 +37,9 @@ function Nav() {
             <img 
               src={Kopano}
               alt="Kopano Capital logo" 
-              className="h-14 lg:h-18 w-auto"
+              className="h-50 lg:h-58 w-auto"
             />
+
           </a>
 
           {/* Desktop Navigation */}
